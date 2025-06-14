@@ -98,3 +98,31 @@ def load_and_prepare_data():
         st.error("❌ Dataset 'diabetes.csv' not found. Please ensure the file is in the correct directory.")
         return None
 
+@st.cache_resource
+def train_model(diabetes_df):
+    """Train the SVM model"""
+    # Group data by outcome
+    diabetes_mean_df = diabetes_df.groupby('Outcome').mean()
+    
+    # Split features and target
+    X = diabetes_df.drop('Outcome', axis=1)
+    y = diabetes_df['Outcome']
+    
+    # Scale features
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    
+    # Split data
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_scaled, y, test_size=0.2, random_state=1, stratify=y
+    )
+    
+    # Train model
+    model = svm.SVC(kernel='linear', probability=True)
+    model.fit(X_train, y_train)
+    
+    # Calculate accuracies
+    train_acc = accuracy_score(y_train, model.predict(X_train))
+    test_acc = accuracy_score(y_test, model.predict(X_test))
+    
+    return model, scaler, train_acc, test_acc, diabetes_mean_df, diabetes_df
