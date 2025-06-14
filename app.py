@@ -245,3 +245,35 @@ def main():
         </div>
         ''', unsafe_allow_html=True)
     
+
+     # Visualizations
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Dataset distribution
+        fig_dist = create_distribution_chart(df)
+        st.plotly_chart(fig_dist, use_container_width=True)
+    
+    with col2:
+        # Feature comparison
+        feature_names = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 
+                        'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
+        
+        # Simple feature importance based on correlation with outcome
+        correlations = abs(df.corr()['Outcome'].drop('Outcome'))
+        fig_importance = create_feature_importance_chart(feature_names, correlations.values)
+        st.plotly_chart(fig_importance, use_container_width=True)
+    
+    # Dataset insights
+    with st.expander("📊 Dataset Insights", expanded=False):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("### Average Values by Outcome")
+            st.dataframe(diabetes_mean_df.round(2), use_container_width=True)
+        
+        with col2:
+            st.markdown("### Dataset Statistics")
+            st.dataframe(df.describe().round(2), use_container_width=True)
+    
