@@ -126,3 +126,19 @@ def train_model(diabetes_df):
     test_acc = accuracy_score(y_test, model.predict(X_test))
     
     return model, scaler, train_acc, test_acc, diabetes_mean_df, diabetes_df
+
+
+
+
+
+def main():
+    # Header
+    st.markdown('<h1 class="main-header">🩺 Diabetes Prediction AI</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-header">Advanced Machine Learning for Diabetes Risk Assessment</p>', unsafe_allow_html=True)
+    
+    # Load data and train model
+    diabetes_df = load_and_prepare_data()
+    if diabetes_df is None:
+        return
+    
+    model, scaler, train_acc, test_acc, diabetes_mean_df, df = train_model(diabetes_df)
