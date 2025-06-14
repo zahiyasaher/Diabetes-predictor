@@ -205,3 +205,43 @@ def main():
                     <p>Recommendation: Maintain current healthy lifestyle practices</p>
                 </div>
                 ''', unsafe_allow_html=True)
+
+                # Model performance metrics
+    st.markdown("---")
+    st.markdown("## 📈 Model Performance")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.markdown(f'''
+        <div class="metric-card">
+            <h3>Training Accuracy</h3>
+            <h2>{train_acc:.1%}</h2>
+        </div>
+        ''', unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown(f'''
+        <div class="metric-card">
+            <h3>Testing Accuracy</h3>
+            <h2>{test_acc:.1%}</h2>
+        </div>
+        ''', unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown(f'''
+        <div class="metric-card">
+            <h3>Dataset Size</h3>
+            <h2>{len(df):,}</h2>
+        </div>
+        ''', unsafe_allow_html=True)
+    
+    with col4:
+        diabetes_rate = (df['Outcome'].sum() / len(df)) * 100
+        st.markdown(f'''
+        <div class="metric-card">
+            <h3>Diabetes Rate</h3>
+            <h2>{diabetes_rate:.1f}%</h2>
+        </div>
+        ''', unsafe_allow_html=True)
+    
