@@ -142,3 +142,32 @@ def main():
         return
     
     model, scaler, train_acc, test_acc, diabetes_mean_df, df = train_model(diabetes_df)
+
+      # Sidebar for input features
+    st.sidebar.markdown("## 📊 Patient Information")
+    st.sidebar.markdown("---")
+    
+    # Input sliders with better descriptions and icons
+    preg = st.sidebar.slider('🤰 Number of Pregnancies', 0, 17, 3, 
+                            help="Number of times pregnant")
+    
+    glucose = st.sidebar.slider('🍯 Glucose Level (mg/dL)', 0, 199, 117,
+                               help="Plasma glucose concentration after 2hr oral glucose tolerance test")
+    
+    bp = st.sidebar.slider('💓 Blood Pressure (mmHg)', 0, 122, 72,
+                          help="Diastolic blood pressure")
+    
+    skinthickness = st.sidebar.slider('📏 Skin Thickness (mm)', 0, 99, 23,
+                                     help="Triceps skin fold thickness")
+    
+    insulin = st.sidebar.slider('💉 Insulin Level (μU/mL)', 0, 846, 30,
+                               help="2-Hour serum insulin")
+    
+    bmi = st.sidebar.slider('⚖️ Body Mass Index', 0.0, 67.1, 32.0,
+                           help="Body mass index (weight in kg/(height in m)^2)")
+    
+    dpf = st.sidebar.slider('🧬 Diabetes Pedigree Function', 0.078, 2.42, 0.3725, 0.001,
+                           help="Diabetes pedigree function (genetic risk factor)")
+    
+    age = st.sidebar.slider('🎂 Age (years)', 21, 81, 29,
+                           help="Age in years")
