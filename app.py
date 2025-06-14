@@ -127,9 +127,51 @@ def train_model(diabetes_df):
     
     return model, scaler, train_acc, test_acc, diabetes_mean_df, diabetes_df
 
+#add from here
 
+def create_feature_importance_chart(feature_names, importance_values):
+    """Create a feature importance visualization"""
+    fig = go.Figure(data=go.Bar(
+        x=importance_values,
+        y=feature_names,
+        orientation='h',
+        marker=dict(
+            color=importance_values,
+            colorscale='Viridis',
+            colorbar=dict(title="Importance")
+        )
+    ))
+    
+    fig.update_layout(
+        title="Feature Importance in Diabetes Prediction",
+        xaxis_title="Importance Score",
+        yaxis_title="Features",
+        height=400,
+        template="plotly_white"
+    )
+    
+    return fig
 
+def create_distribution_chart(diabetes_df):
+    """Create outcome distribution visualization"""
+    outcome_counts = diabetes_df['Outcome'].value_counts()
+    
+    fig = go.Figure(data=go.Pie(
+        labels=['No Diabetes', 'Diabetes'],
+        values=outcome_counts.values,
+        hole=0.4,
+        marker=dict(colors=['#51cf66', '#ff6b6b'])
+    ))
+    
+    fig.update_layout(
+        title="Dataset Distribution",
+        height=300,
+        template="plotly_white"
+    )
+    
+    return fig
 
+#to here
 
 def main():
     # Header
@@ -142,8 +184,8 @@ def main():
         return
     
     model, scaler, train_acc, test_acc, diabetes_mean_df, df = train_model(diabetes_df)
-
-      # Sidebar for input features
+    
+    # Sidebar for input features
     st.sidebar.markdown("## 📊 Patient Information")
     st.sidebar.markdown("---")
     
@@ -171,8 +213,8 @@ def main():
     
     age = st.sidebar.slider('🎂 Age (years)', 21, 81, 29,
                            help="Age in years")
-
- # Create three columns for layout
+    
+    # Create three columns for layout
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
@@ -205,8 +247,8 @@ def main():
                     <p>Recommendation: Maintain current healthy lifestyle practices</p>
                 </div>
                 ''', unsafe_allow_html=True)
-
-                # Model performance metrics
+    
+    # Model performance metrics
     st.markdown("---")
     st.markdown("## 📈 Model Performance")
     
@@ -245,8 +287,7 @@ def main():
         </div>
         ''', unsafe_allow_html=True)
     
-
-     # Visualizations
+    # Visualizations
     st.markdown("---")
     col1, col2 = st.columns(2)
     
@@ -277,3 +318,14 @@ def main():
             st.markdown("### Dataset Statistics")
             st.dataframe(df.describe().round(2), use_container_width=True)
     
+    # Footer
+    st.markdown("---")
+    st.markdown("""
+    <div style='text-align: center; color: #6b7280; padding: 2rem;'>
+        <p>⚕️ This tool is for educational purposes only and should not replace professional medical advice.</p>
+       
+    </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == '__main__':
+    main()
