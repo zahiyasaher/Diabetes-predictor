@@ -171,3 +171,37 @@ def main():
     
     age = st.sidebar.slider('🎂 Age (years)', 21, 81, 29,
                            help="Age in years")
+
+ # Create three columns for layout
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col2:
+        # Prediction section
+        if st.button("🔬 Analyze Risk", type="primary", use_container_width=True):
+            # Prepare input data
+            input_data = np.array([[preg, glucose, bp, skinthickness, insulin, bmi, dpf, age]])
+            scaled_input_data = scaler.transform(input_data)
+            
+            # Make prediction
+            prediction = model.predict(scaled_input_data)[0]
+            prediction_proba = model.predict_proba(scaled_input_data)[0]
+            
+            # Display prediction with professional styling
+            if prediction == 1:
+                risk_percentage = prediction_proba[1] * 100
+                st.markdown(f'''
+                <div class="prediction-box positive-prediction">
+                    <h2>⚠️ High Diabetes Risk Detected</h2>
+                    <p>Risk Probability: {risk_percentage:.1f}%</p>
+                    <p>Recommendation: Consult with a healthcare professional for further evaluation</p>
+                </div>
+                ''', unsafe_allow_html=True)
+            else:
+                risk_percentage = prediction_proba[0] * 100
+                st.markdown(f'''
+                <div class="prediction-box negative-prediction">
+                    <h2>✅ Low Diabetes Risk</h2>
+                    <p>Healthy Probability: {risk_percentage:.1f}%</p>
+                    <p>Recommendation: Maintain current healthy lifestyle practices</p>
+                </div>
+                ''', unsafe_allow_html=True)
